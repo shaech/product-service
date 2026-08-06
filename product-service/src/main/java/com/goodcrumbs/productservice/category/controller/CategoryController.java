@@ -34,8 +34,8 @@ public class CategoryController {
     }
 
     /*Get category by id*/
-    @GetMapping("{id}")
-    public ResponseEntity<CategoryResponseDto> getCategoriesById(@RequestParam String id){
+    @GetMapping("/{id}")
+    public ResponseEntity<CategoryResponseDto> getCategoriesById(@PathVariable String id){
         CategoryResponseDto catByIdResponse = categoryService.getCategoryById(id);
         return ResponseEntity.status(HttpStatus.OK).body(catByIdResponse);
     }
@@ -47,13 +47,15 @@ public class CategoryController {
     }
 
     @DeleteMapping("{id}")
-    public String deleteCategory(@PathVariable String id){
+    public ResponseEntity<Void> deleteCategory(@PathVariable String id){
         categoryService.deleteCategory(id);
-        return HttpStatus.OK.toString();
+        //return HttpStatus.OK.toString();
+        return ResponseEntity.noContent().build();
+
     }
 
-    @PatchMapping("id")
-    public ResponseEntity<CategoryResponseDto> updateStatusOfCategory(@RequestParam String id, @RequestParam boolean active){
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<CategoryResponseDto> updateStatusOfCategory(@PathVariable String id, @RequestParam boolean active){
         CategoryResponseDto updatedStatusResponse = categoryService.updateCategoryStatus(id,active);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(updatedStatusResponse);
     }
